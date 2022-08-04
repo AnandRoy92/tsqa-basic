@@ -3,9 +3,9 @@ We will use this script to learn Python to absolute beginners
 The script is an example of BMI_Calculator implemented in Python
 The BMI_Calculator: 
     # Get the weight(Kg) of the user
-    # Get the height(m) of the user
+    # Get the height(cm) of the user
     # Caculate the BMI using the formula
-        BMI=weight in kg/height in meters*height in meters
+        BMI=weight in kg/height in centimeters/100)**2
 
 Exercise 5:
         Write a program to calculate the BMI by accepting user input from the keyboard and check whether the user comes
@@ -15,9 +15,9 @@ Exercise 5:
         your program should not get crashed.
        
             i)Get user weight in kg 
-            ii)Get user height in meter
+            ii)Get user height in centimeter
             iii) Use this formula to calculate the BMI
-                    BMI = weight_of_the_user/(height_of_the_user * height_of_the_user)
+                    BMI = weight_of_the_user/(height_of_the_user/100)**2 
             iv)Use this level to check user category
                 #)Less than or equal to 18.5 is represents underweight
                 #)Between 18.5 -24.9 indicate normal weight
@@ -36,31 +36,20 @@ import csv
 
 def get_input_to_calculate_bmi():
     "This function gets the input from the user"
-    # Getting input will be repeated until the user enters the proper input
-    while True:
-        print("Enter the weight of the user in Kg's")
-        # Get the input from the user and check it's of correct type
-        try:        
-            weight_of_the_user = float(input())
-            # isintance will check the type of the input and returns true/false
-            if isinstance(weight_of_the_user,float):
-                break 
-        # If user inputs wrong type then the except will run
-        except ValueError:
-            print("The value you have entered is not a float value.Please enter the input in float value and in kilograms")
-        
-    # Get the height of the user through keyboard
-    while True:
-        print("Enter the height of the user in cm")
-        try:        
-            height_of_the_user = float(input())
-            if isinstance(height_of_the_user,float):
-                break 
-        except ValueError:
-            print("The value you have enteed is not a float value.Please enter the input in float value and in meters")  
-        
+    print("enter the weight of user in kg")
+    weight_of_the_user = float(input())
+    print("enter the height of user in cm")
+    height_of_the_user = float(input())
     return weight_of_the_user,height_of_the_user
+    
+def calculate_bmi(weight_of_the_user,height_of_the_user):
+    "This function calculates the bmi"
+    # Calculate the BMI of the user according to height and weight
+    bmi_of_the_user = round(weight_of_the_user/(height_of_the_user/100)**2,2)
 
+    # Return the BMI of the user to the called function
+    return bmi_of_the_user
+            
 def calculate_bmi(weight_of_the_user,height_of_the_user):
     "This function calculates the bmi"
     # Calculate the BMI of the user according to height and weight
@@ -82,22 +71,22 @@ def check_user_bmi_category(bmi):
 
 def compare_user_bmi_with_celebrity_csv(bmi_of_the_user):
     "This functions reads the csv file and compare the BMI value with celebrity and returns the celebrity name"
-    filename = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','data',"all_players_data.csv"))
+    filename = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','data',"celebrity.csv"))
     matched_celebrity = []
     with open(filename,"r") as fp:
         csv_file = csv.reader(fp)
         next(csv_file)
         for i, row in enumerate(csv_file):
             bmi_value_in_row = row[3]
-            player_name = row[0]    
+            celebrity_name = row[0]    
             if float(bmi_value_in_row) == bmi_of_the_user:
-                matched_celebrity.append({player_name:bmi_value_in_row})
-    if not matched_celebrity:
-        print("No matching data")
-    else:
-        print("Your BMI is matching with")
-        print ("matched_celebrity")
-    
+                print("Your BMI is matching with:",celebrity_name)
+                break
+            
+            else:
+                 print("your bmi is not matching with any celebrity")
+                 
+        
 # Program starts here
 if __name__ == "__main__":
     # This calling function gets the input from the user
@@ -106,7 +95,9 @@ if __name__ == "__main__":
     # This calling function calculates the BMI of the user
     bmi_value = calculate_bmi(weight_of_the_user,height_of_the_user)
     print("BMI of the user is :",bmi_value)
-# This function is used to calculate the user's criteria
+   
+    # This function is used to calculate the user's criteria
     check_user_bmi_category(bmi_value)
-# This function is used to read the CSV file and compare the BMI value
+
+    # This function is used to read the CSV file and compare the BMI value
     compare_user_bmi_with_celebrity_csv(bmi_value)
