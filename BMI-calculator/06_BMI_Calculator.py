@@ -72,14 +72,13 @@ def check_user_bmi_category(bmi):
 def compare_user_bmi_with_celebrity_csv(bmi_of_the_user):
     "This functions reads the csv file and compare the BMI value with celebrity and returns the celebrity name"
     filename = os.path.abspath(os.path.join(os.path.dirname(__file__),'..','data',"celebrity.csv"))
-    matched_celebrity = []
     with open(filename,"r") as fp:
         csv_file = csv.reader(fp)
         next(csv_file)
         for i, row in enumerate(csv_file):
-            bmi_value_in_row = row[3]
+            bmi_value = row[3]
             celebrity_name = row[0]    
-            if float(bmi_value_in_row) == bmi_of_the_user:
+            if float(bmi_value) == bmi_of_the_user:
                 print("Your BMI is matching with:",celebrity_name)
                 break
             
