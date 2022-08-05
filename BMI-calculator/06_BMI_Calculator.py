@@ -81,7 +81,6 @@ def compare_user_bmi_with_celebrity_csv(bmi_of_the_user):
             if float(bmi_value) == bmi_of_the_user:
                 print("Your BMI is matching with:",celebrity_name)
                 break
-            
             else:
                  print("your bmi is not matching with any celebrity")
                  
